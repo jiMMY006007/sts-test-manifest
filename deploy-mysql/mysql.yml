@@ -2,41 +2,47 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vprodb
+  name: mysql-test
   labels:
-    app: vprodb
+    app: mysql-test
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: vprodb
+      app: mysql-test
   template:
     metadata:
       labels:
-        app : vprodb
+        app : mysql-test
     spec:
       containers:
-        - name: vprodb
+        - name: mysql-test
           image: mysql
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - mountPath: /var/lib/
-              name: vpro-db-data
+              name: db-data
           ports:
-            - name: vprodb-port
+            - name: mysql-port
               containerPort: 3306
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: app-secret
+                  name: secret
                   key: db-pass
       volumes:
-        - name: vpro-db-data
+        - name: db-data
           persistentVolumeClaim:
-            claimName: vpro-db-data
+            claimName: db-data
 
       initContainers:
         - name: busybox
           image: busybox:latest
           imagePullPolicy: IfNotPresent
+          args: ["rm","-rf","/var/lib/mysql/*"]
+
+          volumeMounts:
+            - name: db-data
+              mountPath: /var/lib/mysql
+
