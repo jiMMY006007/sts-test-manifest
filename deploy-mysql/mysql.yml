@@ -45,4 +45,6 @@ spec:
           volumeMounts:
             - name: db-data
               mountPath: /var/lib/mysql
+      imagePullSecrets:
+      - name: dockerhub-cred
 
