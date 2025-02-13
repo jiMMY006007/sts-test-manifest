@@ -2,34 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: flaskdemo
-  name: flaskdemo
+    app: myappdemo
+  name: myappdemo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: flaskdemo
-  strategy: {}
+      app: myappdemo
   template:
     metadata:
       labels:
-        app: flaskdemo
+        app: myappdemo
     spec:
       containers:
       - image: ahmedgamal00/simple-app
-        name: flaskdemo
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: flask-service
-  labels:
-    app: flask-service
-spec:
-  type: NodePort
-  ports:
-  - nodePort: 30001
-    port: 80
-    targetPort: 5000
-  selector:
-    app: flaskdemo
+        name: myappdemo
+      imagePullSecrets:
+      - name: dockerhub-cred
