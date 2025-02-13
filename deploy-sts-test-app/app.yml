@@ -15,7 +15,7 @@ spec:
         app: myappdemo
     spec:
       containers:
-      - image: ahmedgamal00/simple-app:app-9
+      - image: ahmedgamal00/simple-app:app-10
         name: myappdemo
       imagePullSecrets:
       - name: dockerhub-cred
