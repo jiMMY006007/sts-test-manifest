@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: mysql-test
-          image: mysql:latest
+          image: mysql
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - mountPath: /var/lib/mysql
