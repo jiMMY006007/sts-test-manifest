@@ -14,7 +14,7 @@ spec:
         app: mysql
     spec:
       containers:
-      - image: mysql:9.0.0
+      - image: bitnami/mysql:5.7
         imagePullPolicy: IfNotPresent
         name: mysql
         env:
