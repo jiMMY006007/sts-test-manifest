@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: mysql
 spec:
-  NodeName: node03.hak8s.local
   selector:
     matchLabels:
       app: mysql
@@ -15,7 +14,7 @@ spec:
         app: mysql
     spec:
       containers:
-      - image: mysql:latest
+      - image: mysql:9.1.0
         imagePullPolicy: IfNotPresent
         name: mysql
         env:
