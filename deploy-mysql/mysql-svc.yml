@@ -3,9 +3,9 @@ kind: Service
 metadata:
   name: mysql
 spec:
+  type: NodePort
   ports:
   - port: 3306
     nodePort: 30600
   selector:
     app: mysql
-  clusterIP: NodePort
