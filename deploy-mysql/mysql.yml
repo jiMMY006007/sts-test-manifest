@@ -20,7 +20,7 @@ spec:
           image: mysql:latest
           imagePullPolicy: IfNotPresent
           volumeMounts:
-            - mountPath: /var/lib/
+            - mountPath: /var/lib/mysql
               name: db-data
           ports:
             - name: mysql-port
