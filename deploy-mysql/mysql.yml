@@ -1,50 +1,38 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql-test
-  labels:
-    app: mysql-test
+  name: mysql
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: mysql-test
+      app: mysql
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
-        app : mysql-test
+        app: mysql
     spec:
       containers:
-        - name: mysql-test
-          image: mysql
-          imagePullPolicy: IfNotPresent
-          volumeMounts:
-            - mountPath: /var/lib/mysql
-              name: db-data
-          ports:
-            - name: mysql-port
-              containerPort: 3306
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: secret
-                  key: db-pass
+      - image: mysql:5.6
+        imagePullPolicy: IfNotPresent
+        name: mysql
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secret
+                key: db-pass
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
       volumes:
-        - name: db-data
-          persistentVolumeClaim:
-            claimName: db-data
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
 
-      initContainers:
-        - name: busybox
-          image: busybox:latest
-          imagePullPolicy: IfNotPresent
-          args: ["rm","-rf","/var/lib/mysql/*"]
-
-          volumeMounts:
-            - name: db-data
-              mountPath: /var/lib/mysql
       imagePullSecrets:
       - name: dockerhub-cred
-
